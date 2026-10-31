@@ -26,37 +26,6 @@
             margin-top: 5px;
             text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
         }
-        
-        /* Navigation Tabs */
-        .tab-menu {
-            display: flex;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #00ff00;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 10px;
-            background: #111;
-            color: #00ff00;
-            border: 1px solid #00ff00;
-            border-bottom: none;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: monospace;
-            text-align: center;
-        }
-        .tab-btn.active {
-            background: #00ff00;
-            color: #000;
-        }
-
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
-
         .form-group {
             margin-bottom: 10px;
         }
@@ -75,7 +44,7 @@
             font-family: monospace;
             box-sizing: border-box;
         }
-        .action-btn {
+        button {
             width: 100%;
             padding: 10px;
             background: #00ff00;
@@ -86,12 +55,15 @@
             cursor: pointer;
             font-family: monospace;
         }
+        button:hover {
+            background: #00cc00;
+        }
         #console {
             margin-top: 10px;
             background: #000;
             border: 1px dashed #00ff00;
             padding: 8px;
-            height: 220px;
+            height: 200px;
             overflow-y: scroll;
             font-size: 12px;
         }
@@ -100,86 +72,111 @@
             border-bottom: 1px solid #111;
         }
 
-        /* Facebook Panel */
-        .fb-panel {
-            text-align: center;
-            padding: 10px;
-        }
-        .fb-link-btn {
+        /* Facebook Quick Button */
+        .fb-trigger-btn {
             display: block;
             width: 100%;
-            padding: 12px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-top: 15px;
+            background: #1877f2;
             color: #fff;
-            text-decoration: none;
+            text-align: center;
             font-weight: bold;
             font-size: 14px;
+            border: none;
+            cursor: pointer;
             border-radius: 4px;
-            box-sizing: border-box;
             font-family: monospace;
         }
-        .btn-fb { background: #1877f2; }
-        .btn-login { background: #42b72a; }
+
+        /* Pop-up Modal Overlay */
+        #fbModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+            height: 80%;
+            background: #111;
+            border: 2px solid #00ff00;
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+        .modal-header {
+            background: #050505;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #00ff00;
+            color: #00ff00;
+            font-weight: bold;
+        }
+        .close-btn {
+            background: #ff3333;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .modal-body {
+            flex: 1;
+            width: 100%;
+            border: none;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>🔐 KMT SYSTEM 🔐</h2>
+    <div style="text-align: center; font-size: 11px; margin-bottom: 10px;">>>> KYAW MIN TUN TOOL <<<</div>
     
-    <!-- Tab Navigation Bar -->
-    <div class="tab-menu">
-        <div class="tab-btn active" onclick="switchTab('tool-tab', this)">[1] TOOL MAIN</div>
-        <div class="tab-btn" onclick="switchTab('fb-tab', this)">[2] FB LINKS</div>
+    <div class="form-group">
+        <label>[?] ENTER YOUR KEY:</label>
+        <input type="text" id="key" value="KMT" placeholder="Enter key...">
+    </div>
+    
+    <div class="form-group">
+        <label>[★] LIMIT COUNT:</label>
+        <input type="number" id="limit" value="5" placeholder="Number of IDs...">
     </div>
 
-    <!-- TAB 1: KMT Tool Main Panel -->
-    <div id="tool-tab" class="tab-content active">
-        <div class="form-group">
-            <label>[?] ENTER YOUR KEY:</label>
-            <input type="text" id="key" value="KMT" placeholder="Enter key...">
-        </div>
-        
-        <div class="form-group">
-            <label>[★] LIMIT COUNT:</label>
-            <input type="number" id="limit" value="5" placeholder="Number of IDs...">
-        </div>
+    <button onclick="startTool()">[>] START TOOL</button>
 
-        <button class="action-btn" onclick="startTool()">[>] START TOOL</button>
-
-        <div id="console">
-            <div style="color: #666;">[System Ready. Waiting for execution...]</div>
-        </div>
+    <div id="console">
+        <div style="color: #666;">[System Ready. Waiting for execution...]</div>
     </div>
 
-    <!-- TAB 2: Facebook Quick Links Panel -->
-    <div id="fb-tab" class="tab-content">
-        <div class="fb-panel">
-            <label style="color: #00ffcc; margin-bottom: 15px;">[🌐] FACEBOOK DIRECT ACCESS:</label>
-            <a href="https://m.facebook.com" class="fb-link-btn btn-fb">[+] Open Mobile Facebook</a>
-            <a href="https://www.facebook.com/login" class="fb-link-btn btn-login">[+] Open Facebook Login</a>
-            <div style="font-size: 11px; color: #888; margin-top: 10px;">
-                (Note: Switch back to [1] TOOL MAIN anytime without clearing system state.)
-            </div>
+    <!-- Facebook Pop-up Trigger Button -->
+    <button class="fb-trigger-btn" onclick="openFbModal()">[🌐] OPEN FACEBOOK TESTER</button>
+</div>
+
+<!-- Pop-up Modal Container -->
+<div id="fbModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>FACEBOOK BROWSER</span>
+            <button class="close-btn" onclick="closeFbModal()">[X] CLOSE</button>
         </div>
+        <!-- Facebook Iframe inside Modal -->
+        <iframe src="https://m.facebook.com/login" class="modal-body"></iframe>
     </div>
 </div>
 
 <script>
-    // Tab switching functionality
-    function switchTab(tabId, element) {
-        document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.classList.remove('active');
-        });
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-
-        document.getElementById(tabId).classList.add('active');
-        element.classList.add('active');
-    }
-
-    // Tool execution script
     function startTool() {
         const key = document.getElementById('key').value;
         const limit = document.getElementById('limit').value;
@@ -213,6 +210,15 @@
         .catch(err => {
             consoleBox.innerHTML = `<div style="color: red;">[×] Connection Error!</div>`;
         });
+    }
+
+    // Modal Controller Functions
+    function openFbModal() {
+        document.getElementById('fbModal').style.display = 'flex';
+    }
+
+    function closeFbModal() {
+        document.getElementById('fbModal').style.display = 'none';
     }
 </script>
 
