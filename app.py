@@ -9,7 +9,6 @@ app = Flask(__name__, template_folder='.')
 APPROVED_KEY = "KMT"
 
 def creationyear(uid):
-    """Estimates the Facebook account creation year based on the UID."""
     if len(uid) == 15:
         if uid.startswith('10000000'): return '2009'
         elif uid.startswith('100001'): return '2010'
