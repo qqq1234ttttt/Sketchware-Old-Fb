@@ -2,9 +2,9 @@ import os
 import random
 import time
 import requests
-from flask import Flask, render_template_string, request, jsonify
+from flask import Flask, render_template, request, jsonify
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
 
 APPROVED_KEY = "KMT"
 
@@ -31,198 +31,15 @@ def creationyear(uid):
     elif len(uid) == 7: return '2006'
     return '2015+'
 
-HTML_TEMPLATE = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KMT SYSTEM - WEB TERMINAL</title>
-    <style>
-        body {
-            background-color: #0d0d0d;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 10px;
-            margin: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            border: 1px solid #00ff00;
-            padding: 12px;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
-            background: #050505;
-        }
-        h2 {
-            text-align: center;
-            color: #00ff66;
-            margin-top: 5px;
-            text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
-        }
-        .form-group {
-            margin-bottom: 10px;
-        }
-        label {
-            display: block;
-            margin-bottom: 3px;
-            color: #00cc00;
-            font-size: 13px;
-        }
-        input, select {
-            width: 100%;
-            padding: 8px;
-            background: #111;
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            font-family: monospace;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #00ff00;
-            color: #000;
-            border: none;
-            font-weight: bold;
-            font-size: 15px;
-            cursor: pointer;
-            font-family: monospace;
-        }
-        button:hover {
-            background: #00cc00;
-        }
-        #console {
-            margin-top: 10px;
-            background: #000;
-            border: 1px dashed #00ff00;
-            padding: 8px;
-            height: 200px;
-            overflow-y: scroll;
-            font-size: 12px;
-            white-space: pre-wrap;
-        }
-        .log-item {
-            margin-bottom: 4px;
-            border-bottom: 1px solid #111;
-        }
-        .fb-btn-group {
-            margin-top: 15px;
-            border-top: 1px dashed #00ff00;
-            padding-top: 10px;
-        }
-        .fb-link-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 8px;
-            color: #fff;
-            text-align: center;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-family: monospace;
-        }
-        .btn-fb { background: #1877f2; }
-        .btn-login { background: #42b72a; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h2>🔐 KMT SYSTEM 🔐</h2>
-    <div style="text-align: center; font-size: 11px; margin-bottom: 10px;">>>> KYAW MIN TUN TOOL <<<</div>
-    
-    <div class="form-group">
-        <label>[?] ENTER YOUR KEY:</label>
-        <input type="text" id="key" value="KMT" placeholder="Enter key...">
-    </div>
-
-    <div class="form-group">
-        <label>[★] SELECT SERIES / YEAR:</label>
-        <select id="series">
-            <option value="all">A) ALL SERIES (2010-2014)</option>
-            <option value="special">B) 100003/4 SERIES</option>
-            <option value="2009">C) 2009 SERIES</option>
-        </select>
-    </div>
-    
-    <div class="form-group">
-        <label>[★] LIMIT COUNT:</label>
-        <input type="number" id="limit" value="10" placeholder="Number of IDs...">
-    </div>
-
-    <button onclick="startTool()">[>] START TOOL</button>
-
-    <div id="console">
-<span style="color: #666;">[System Ready. Waiting for execution...]</span>
-    </div>
-
-    <div class="fb-btn-group">
-        <label style="color: #00ffcc; margin-bottom: 8px;">[🌐] FACEBOOK QUICK ACCESS:</label>
-        <a href="https://m.facebook.com" target="_blank" class="fb-link-btn btn-fb">[+] Open Mobile Facebook</a>
-        <a href="https://www.facebook.com/login" target="_blank" class="fb-link-btn btn-login">[+] Open Facebook Login Page</a>
-    </div>
-</div>
-
-<script>
-    function startTool() {
-        const key = document.getElementById('key').value;
-        const series = document.getElementById('series').value;
-        const limit = document.getElementById('limit').value;
-        const consoleBox = document.getElementById('console');
-
-        consoleBox.innerHTML = '<span style="color: yellow;">[~] KMT SYSTEM INITIALIZED...\\n</span>';
-
-        fetch('/run_tool', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ key: key, series: series, limit: limit })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'error') {
-                consoleBox.innerHTML += `<span style="color: red;">${data.message}\\n</span>`;
-                return;
-            }
-
-            let index = 0;
-            function printNext() {
-                if (index < data.results.length) {
-                    let res = data.results[index];
-                    let line = document.createElement('div');
-                    line.className = 'log-item';
-                    line.style.color = '#00ff41';
-                    line.innerText = res.text;
-                    consoleBox.appendChild(line);
-                    consoleBox.scrollTop = consoleBox.scrollHeight;
-                    index++;
-                    setTimeout(printNext, 150); // Termux လို တစ်ကြောင်းချင်းစီ ပုံပေါ်လာမည့် Speed
-                }
-            }
-            printNext();
-        })
-        .catch(err => {
-            consoleBox.innerHTML += `<span style="color: red;">[×] Connection Error!\\n</span>`;
-        });
-    }
-</script>
-
-</body>
-</html>
-"""
-
 @app.route('/')
 def index():
-    return render_template_string(HTML_TEMPLATE)
+    return render_template('index.html')
 
 @app.route('/run_tool', methods=['POST'])
 def run_tool():
     req_data = request.json
     user_key = req_data.get('key', '')
-    series = req_data.get('series', 'all')
+    series = req_data.get('series', 'A')
     limit = int(req_data.get('limit', 5))
 
     if user_key != APPROVED_KEY:
@@ -230,19 +47,19 @@ def run_tool():
 
     logs = []
     for i in range(limit):
-        if series == 'special':
+        if series == 'B':
             prefix = random.choice(['100003', '100004'])
             uid = prefix + ''.join(random.choices('0123456789', k=9))
-        elif series == '2009':
+        elif series == 'C':
             uid = '1000004' + ''.join(random.choices('0123456789', k=8))
         else:
             uid = '10000' + ''.join(random.choices('0123456789', k=9))
 
         pw = random.choice(['123456', '123123', '1234567', '12345678'])
         year = creationyear(uid)
-        logs.append({
-            "text": f"+(KMT OK ID-M1)({i})(OK) = {uid} = {pw} = {year}"
-        })
+        
+        log_text = f"+(KMT OK ID)({i+1})(OK) = {uid} = {pw} = {year}"
+        logs.append({"text": log_text})
 
     return jsonify({"status": "success", "results": logs})
 
