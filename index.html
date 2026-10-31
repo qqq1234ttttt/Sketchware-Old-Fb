@@ -72,70 +72,28 @@
             border-bottom: 1px solid #111;
         }
 
-        /* Facebook Quick Button */
-        .fb-trigger-btn {
+        /* Facebook Action Buttons */
+        .fb-btn-group {
+            margin-top: 15px;
+            border-top: 1px dashed #00ff00;
+            padding-top: 10px;
+        }
+        .fb-link-btn {
             display: block;
             width: 100%;
-            padding: 10px;
-            margin-top: 15px;
-            background: #1877f2;
+            padding: 12px;
+            margin-bottom: 8px;
             color: #fff;
             text-align: center;
+            text-decoration: none;
             font-weight: bold;
             font-size: 14px;
-            border: none;
-            cursor: pointer;
             border-radius: 4px;
+            box-sizing: border-box;
             font-family: monospace;
         }
-
-        /* Pop-up Modal Overlay */
-        #fbModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 999;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            width: 90%;
-            max-width: 500px;
-            height: 80%;
-            background: #111;
-            border: 2px solid #00ff00;
-            display: flex;
-            flex-direction: column;
-            border-radius: 5px;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
-        }
-        .modal-header {
-            background: #050505;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #00ff00;
-            color: #00ff00;
-            font-weight: bold;
-        }
-        .close-btn {
-            background: #ff3333;
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .modal-body {
-            flex: 1;
-            width: 100%;
-            border: none;
-        }
+        .btn-fb { background: #1877f2; }
+        .btn-login { background: #42b72a; }
     </style>
 </head>
 <body>
@@ -160,19 +118,14 @@
         <div style="color: #666;">[System Ready. Waiting for execution...]</div>
     </div>
 
-    <!-- Facebook Pop-up Trigger Button -->
-    <button class="fb-trigger-btn" onclick="openFbModal()">[🌐] OPEN FACEBOOK TESTER</button>
-</div>
-
-<!-- Pop-up Modal Container -->
-<div id="fbModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <span>FACEBOOK BROWSER</span>
-            <button class="close-btn" onclick="closeFbModal()">[X] CLOSE</button>
+    <!-- Facebook Quick Access Buttons -->
+    <div class="fb-btn-group">
+        <label style="color: #00ffcc; margin-bottom: 8px;">[🌐] FACEBOOK LIVE TESTER:</label>
+        <a href="https://m.facebook.com" target="_blank" class="fb-link-btn btn-fb">[+] Open Mobile Facebook</a>
+        <a href="https://www.facebook.com/login" target="_blank" class="fb-link-btn btn-login">[+] Open Facebook Login</a>
+        <div style="font-size: 10px; color: #888; text-align: center; margin-top: 5px;">
+            (Opens safely in system browser without clearing app cache.)
         </div>
-        <!-- Facebook Iframe inside Modal -->
-        <iframe src="https://m.facebook.com/login" class="modal-body"></iframe>
     </div>
 </div>
 
@@ -210,15 +163,6 @@
         .catch(err => {
             consoleBox.innerHTML = `<div style="color: red;">[×] Connection Error!</div>`;
         });
-    }
-
-    // Modal Controller Functions
-    function openFbModal() {
-        document.getElementById('fbModal').style.display = 'flex';
-    }
-
-    function closeFbModal() {
-        document.getElementById('fbModal').style.display = 'none';
     }
 </script>
 
