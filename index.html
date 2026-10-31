@@ -9,33 +9,35 @@
             background-color: #0d0d0d;
             color: #00ff00;
             font-family: 'Courier New', Courier, monospace;
-            padding: 15px;
+            padding: 10px;
             margin: 0;
         }
         .container {
             max-width: 600px;
             margin: auto;
             border: 1px solid #00ff00;
-            padding: 15px;
+            padding: 12px;
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
             background: #050505;
         }
         h2 {
             text-align: center;
             color: #00ff66;
+            margin-top: 5px;
             text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             color: #00cc00;
+            font-size: 13px;
         }
         input {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             background: #111;
             border: 1px solid #00ff00;
             color: #00ff00;
@@ -44,12 +46,12 @@
         }
         button {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: #00ff00;
             color: #000;
             border: none;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             font-family: monospace;
         }
@@ -57,17 +59,30 @@
             background: #00cc00;
         }
         #console {
-            margin-top: 20px;
+            margin-top: 10px;
             background: #000;
             border: 1px dashed #00ff00;
-            padding: 10px;
-            height: 250px;
+            padding: 8px;
+            height: 150px;
             overflow-y: scroll;
-            font-size: 13px;
+            font-size: 12px;
         }
         .log-item {
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             border-bottom: 1px solid #111;
+        }
+        /* Facebook Tester Section */
+        .fb-section {
+            margin-top: 15px;
+            border-top: 1px dashed #00ff00;
+            padding-top: 10px;
+        }
+        .fb-container {
+            width: 100%;
+            height: 220px;
+            background: #fff;
+            border: 1px solid #00ff00;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -75,7 +90,7 @@
 
 <div class="container">
     <h2>🔐 KMT SYSTEM 🔐</h2>
-    <div style="text-align: center; font-size: 12px; margin-bottom: 15px;">>>> KYAW MIN TUN TOOL <<<</div>
+    <div style="text-align: center; font-size: 11px; margin-bottom: 10px;">>>> KYAW MIN TUN TOOL <<<</div>
     
     <div class="form-group">
         <label>[?] ENTER YOUR KEY:</label>
@@ -84,13 +99,24 @@
     
     <div class="form-group">
         <label>[★] LIMIT COUNT:</label>
-        <input type="number" id="limit" value="10" placeholder="Number of IDs...">
+        <input type="number" id="limit" value="5" placeholder="Number of IDs...">
     </div>
 
     <button onclick="startTool()">[>] START TOOL</button>
 
     <div id="console">
         <div style="color: #666;">[System Ready. Waiting for execution...]</div>
+    </div>
+
+    <!-- Facebook Website Testing Section -->
+    <div class="fb-section">
+        <label style="color: #00ffcc;">[🌐] FACEBOOK LIVE TESTER (WEB VIEW):</label>
+        <div style="margin-bottom: 5px; font-size: 11px;">
+            <a href="https://m.facebook.com" target="fb_frame" style="color: #00ff00; text-decoration: none; margin-right: 15px;">[Open m.facebook]</a>
+            <a href="https://www.facebook.com/login" target="fb_frame" style="color: #00ff00; text-decoration: none;">[Open Login]</a>
+        </div>
+        <!-- Facebook ကို iframe နဲ့ တိုက်ရိုက်ထည့်ထားခြင်း -->
+        <iframe name="fb_frame" src="https://m.facebook.com" class="fb-container"></iframe>
     </div>
 </div>
 
