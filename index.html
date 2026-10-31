@@ -63,7 +63,7 @@
             background: #000;
             border: 1px dashed #00ff00;
             padding: 8px;
-            height: 150px;
+            height: 180px;
             overflow-y: scroll;
             font-size: 12px;
         }
@@ -71,19 +71,28 @@
             margin-bottom: 4px;
             border-bottom: 1px solid #111;
         }
-        /* Facebook Tester Section */
+        /* Facebook External Link Section */
         .fb-section {
             margin-top: 15px;
             border-top: 1px dashed #00ff00;
             padding-top: 10px;
         }
-        .fb-container {
+        .fb-btn {
+            display: block;
             width: 100%;
-            height: 220px;
-            background: #fff;
-            border: 1px solid #00ff00;
+            padding: 10px;
+            margin-bottom: 8px;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            border-radius: 4px;
             box-sizing: border-box;
+            font-family: monospace;
         }
+        .btn-fb { background: #1877f2; }
+        .btn-login { background: #42b72a; }
     </style>
 </head>
 <body>
@@ -108,15 +117,16 @@
         <div style="color: #666;">[System Ready. Waiting for execution...]</div>
     </div>
 
-    <!-- Facebook Website Testing Section -->
+    <!-- Facebook Quick Access Section -->
     <div class="fb-section">
-        <label style="color: #00ffcc;">[🌐] FACEBOOK LIVE TESTER (WEB VIEW):</label>
-        <div style="margin-bottom: 5px; font-size: 11px;">
-            <a href="https://m.facebook.com" target="fb_frame" style="color: #00ff00; text-decoration: none; margin-right: 15px;">[Open m.facebook]</a>
-            <a href="https://www.facebook.com/login" target="fb_frame" style="color: #00ff00; text-decoration: none;">[Open Login]</a>
+        <label style="color: #00ffcc;">[🌐] FACEBOOK QUICK ACCESS:</label>
+        <div style="margin-top: 8px;">
+            <a href="https://m.facebook.com" target="_blank" class="fb-btn btn-fb">[+] Open Mobile Facebook</a>
+            <a href="https://www.facebook.com/login" target="_blank" class="fb-btn btn-login">[+] Open Facebook Login Page</a>
         </div>
-        <!-- Facebook ကို iframe နဲ့ တိုက်ရိုက်ထည့်ထားခြင်း -->
-        <iframe name="fb_frame" src="https://m.facebook.com" class="fb-container"></iframe>
+        <div style="font-size: 10px; color: #888; text-align: center; margin-top: 4px;">
+            (Clicks will safely open in your default browser.)
+        </div>
     </div>
 </div>
 
